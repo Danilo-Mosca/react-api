@@ -1,0 +1,56 @@
+/* Reset rules */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+* .debug {
+  border: 1px solid red;
+}
+
+*/
+
+/* Classe fluida per le immagini */
+img {
+  width: 100%;
+  max-width: 100%;
+  display: block;
+  /* Riempio l'immagine nel contenitore mantenendo le
+    sue proporzioni ma ritagliando eventualmente i
+    bordi per adattarla al suo contenitore */
+  object-fit: cover;
+}
+
+body {
+  background-color: #0E0E0E;
+  margin: 0 auto;
+  font-family: "Roboto", serif;
+}
+
+header {
+  background-color: #E5E5E5;
+  padding: 20px 0;
+}
+
+main {
+  background: #E5E5E5;
+  padding-bottom: 100px;
+}
+
+footer {
+  background-color: #333333;
+  color: white;
+  padding: 30px 80px;
+  text-align: center;
+}
+
+ul {
+  list-style-type: decimal;
+  padding-left: 20px;
+}
+
+h1 {
+  text-align: center;
+  font-weight: 600;
+}

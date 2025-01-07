@@ -1,0 +1,50 @@
+/* Style CSS Modules del componente Card */
+
+.cards {
+    width: 350px;
+    margin: 0 auto;
+    border-radius: 20px;
+    box-shadow: 3px 5px 15px 1px #ccc;
+}
+
+.btncustom {
+    background-color: #DAA521;
+    text-transform: uppercase;
+    border-radius: 0px;
+    border-width: 0px;
+}
+
+.img-custom {
+    border-radius: 20px 20px 0 0;
+    width: 100%;
+}
+
+/* Classi per i tag dei posts */
+.colorHtml {
+    padding: 10px;
+    color: green;
+}
+
+.colorCss {
+    padding: 10px;
+    color: rgb(255, 0, 43);
+}
+
+.colorJs {
+    padding: 10px;
+    color: rgb(255, 157, 0);
+}
+
+.colorPhp {
+    padding: 10px;
+    color: #007FFF;
+}
+
+.published-text {
+    font-size: 14px;
+    color: rgb(255, 157, 0);
+}
+.not-published-text {
+    font-size: 14px;
+    color: rgb(255, 0, 43);
+}
