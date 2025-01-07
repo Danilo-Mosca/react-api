@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";    // Importo gli hook useState e useEffect
 import Card from "./Card";
 import BlogForm from "./BlogForm";          // Importo il componente BlogForm che disegnerà i campi del form in questo componente
-
+import axios from "axios";
 // Variabile usata per inizializzare lo useState post e successivamente per svuotare i campi del form
 const initialPost = {
     id: "",
@@ -10,7 +10,7 @@ const initialPost = {
     content: "",
     category: "",
     tags: ["storia", "arte", "sport", "attualità"],
-    published: false,
+    published: true,
 };
 // Costante contenente i valori da passare alla <select> del form
 const categoriesAvaible = ["news", "informatica", "musica", "cucina"];
@@ -93,14 +93,18 @@ export default function MainComponent() {
         }
     }
 
-    /* Eseguo l'hook useEffect al caricamento iniziale della pagina e ogni volta che cambia il valore di post.published */
-    useEffect(() => {
-        // Visualizzo un alert ogni volta che il valore di post.published sarà selezionato, cioè sarà true
-        if (post.published) {
-            alert("Hai cliccato su pubblica l'articolo!");
-
-        }
-    }, [post.published]);
+    /* Eseguo l'hook useEffect al caricamento iniziale della pagina (grazie alle parentesi []) */
+    useEffect(() => {  
+        // Richiamo axios con l'endpoint del server in cui sono visualizzati i post
+        axios.get("http://localhost:3000/posts")
+            .then((res) => {
+                /* totalCuont: 5, posts: [...] */
+                console.info("UseEffect:", res.data.posts)      // prova di visualizzazione dei post
+                /* Setto la variabile di stato con dove andrò ad inserire la lista dei post recuperati dal backend 
+                tramite l'endpoint http://localhost:3000/posts e la mostro nell'app front-end */
+                setPostList(res.data.posts)
+            });
+    },[]);
 
 
 
@@ -117,6 +121,7 @@ export default function MainComponent() {
 
 
     // Clono l'array della variabile di stato
+    console.info(postList);
     const arrayPosts = [...postList];
 
     //parte html da ritornare
@@ -125,7 +130,6 @@ export default function MainComponent() {
             {// Mappo props cities per popolare le card
                 arrayPosts.map((post) => {
                     // Ritorno la card solo se questa ha la chiave published impostata su true
-                    if (post.published) {
                         return <Card
                             id={post.id}
                             title={post.title}
@@ -135,7 +139,6 @@ export default function MainComponent() {
                             published={post.published}
                             key={post.id}
                             onDelete={() => deletedPost(post.id)} />
-                    }
                 }
                 )}
 
