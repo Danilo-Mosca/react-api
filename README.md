@@ -14,7 +14,7 @@ npm run dev
 
 # apro il .gitignore e aggiungo package-lock.json
 
- # installo gli altri pacchetti che mi servono (ad esempio bootstrap:)
+ # installo gli altri pacchetti che mi servono (ad esempio bootstrap e axios:)
  npm install bootstrap
  npm install axios
  

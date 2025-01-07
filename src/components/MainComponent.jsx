@@ -10,10 +10,17 @@ const initialPost = {
     content: "",
     category: "",
     tags: ["storia", "arte", "sport", "attualità"],
-    published: true,
+    published: false,
 };
 // Costante contenente i valori da passare alla <select> del form
 const categoriesAvaible = ["news", "informatica", "musica", "cucina"];
+
+
+
+/* AGGIORNAMENTO DEL 7/01/2025: URL DELLA MIA API (nella repo "express-blog-api-crud" aggiornata al 7/01/2025 dove recupero i post): */
+const apiUrl = "http://localhost:3000/posts";
+
+
 
 export default function MainComponent() {
     // Variabile di stato dei post, che conterrà un oggetto dei post
@@ -25,10 +32,22 @@ export default function MainComponent() {
 
 
 
-    // Funzione che cancella il post agganciata al click del pulsante
+
+/* ------------------------AGGIORNAMENTO DEL 7/01/2025: BONUS: FUNZIONE CHE CANCELLA I POST DALLA API, NON DA IL FRONTEND (refreshando la pagina l'elemento non compare, ma ricompare solo se riavvio il server) --------------------------------------------------------------- */
+    // Funzione agganciata al click del pulsante che cancella post con quel determinato id dalla API del mio server in ExpressJS (non cancella i post inseriti dall'utente nel frontend):
     function deletedPost(id) {
-        setPostList(postList.filter((value) => value.id != id));
+        // Richiamo axios con l'endpoint del server in cui sono visualizzati i post + l'id corrispondente a quello per cui si è cliccato il pulsante cancella
+        axios.delete(apiUrl + '/' + id)
+            .then((res) => {
+                console.log("res.data ", res.data);    //console log di prova
+                // Aggiorno la variabile di stato postList escudendo il post con l'id corrispondente
+                setPostList(postList.filter((value) => value.id != id));
+            });
     }
+/* -------------------- FINE FUNZIONE CHE CANCELLA I POST DALLA API, NON DA IL FRONTEND  -------------------- */
+
+    
+    
 
     // Funzione che gestisce gli eventi sulle Input text
     function handlerInput(event) {
@@ -84,7 +103,7 @@ export default function MainComponent() {
         // console.log(event.target.value);
         const value = event.target.value;
         // console.log("event target: ",event.target.value);
-        
+
         // Controllo se è stata selezionata una categoria specifica o solo il campo "Seleziona una categoria"
         if (!value) {
             setPost({ ...post, category: "Nessuna categoria selezionata" });
@@ -93,10 +112,14 @@ export default function MainComponent() {
         }
     }
 
-    /* Eseguo l'hook useEffect al caricamento iniziale della pagina (grazie alle parentesi []) */
-    useEffect(() => {  
+    
+    
+    
+    /* -------------------AGGIORNAMENTO DEL 7/01/2025: USEEFFECT UTILIZZATO PER CARICARE I POST PRESENTI SUL SERVER TRAMITE API ------------------------ */
+    // Eseguo l'hook useEffect al caricamento iniziale della pagina (grazie alle parentesi quadre [])
+    useEffect(() => {
         // Richiamo axios con l'endpoint del server in cui sono visualizzati i post
-        axios.get("http://localhost:3000/posts")
+        axios.get(apiUrl)
             .then((res) => {
                 /* totalCuont: 5, posts: [...] */
                 console.info("UseEffect:", res.data.posts)      // prova di visualizzazione dei post
@@ -104,10 +127,12 @@ export default function MainComponent() {
                 tramite l'endpoint http://localhost:3000/posts e la mostro nell'app front-end */
                 setPostList(res.data.posts)
             });
-    },[]);
+    }, []);
+    /* ------------------- FINE USEEFFECT UTILIZZATO PER CARICARE I POST PRESENTI SUL SERVER TRAMITE API ------------------------ */
 
 
 
+    
     // function tags() {
     //     let tagsList =[];
     //     postList.tags.forEach((tag) => {
@@ -130,15 +155,15 @@ export default function MainComponent() {
             {// Mappo props cities per popolare le card
                 arrayPosts.map((post) => {
                     // Ritorno la card solo se questa ha la chiave published impostata su true
-                        return <Card
-                            id={post.id}
-                            title={post.title}
-                            image={post.image}
-                            content={post.content}
-                            category={post.category}
-                            published={post.published}
-                            key={post.id}
-                            onDelete={() => deletedPost(post.id)} />
+                    return <Card
+                        id={post.id}
+                        title={post.title}
+                        image={post.image}
+                        content={post.content}
+                        category={post.category}
+                        published={post.published}
+                        key={post.id}
+                        onDelete={() => deletedPost(post.id)} />
                 }
                 )}
 
